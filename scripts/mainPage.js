@@ -153,18 +153,15 @@ document.addEventListener("DOMContentLoaded", function () {
         touchEndX = 0;
     }
 
-    servicesArray.forEach(service => {
-        service.addEventListener('click', function (e) {
-            if (service.classList.contains('center')) {
-                const detailsText = service.querySelector('.service-details').textContent;
-                overlay.querySelector('.service-details-content').textContent = detailsText;
-                overlay.classList.add('active');
-                services.classList.add('blurred');
-            } else if (service.classList.contains('left')) {
-                moveCarousel(1);
-            } else if (service.classList.contains('right')) {
-                moveCarousel(-1);
-            }
+    // Обработчик для кнопки "Подробнее"
+    document.querySelectorAll('.details-button').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.stopPropagation(); // Останавливаем всплытие события
+            const service = this.closest('.service');
+            const detailsText = service.querySelector('.service-details').textContent;
+            overlay.querySelector('.service-details-content').textContent = detailsText;
+            overlay.classList.add('active');
+            services.classList.add('blurred');
         });
     });
 

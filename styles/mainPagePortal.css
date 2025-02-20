@@ -2,10 +2,6 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
 }
 html {
     scroll-behavior: smooth;
@@ -14,16 +10,13 @@ html {
 .menu {
     position: fixed;
     width: 100%;
-    height: 10vh; /* Фиксированная высота для меню */
+    height: 7vh;
     background-color: #02051a;
     display: flex;
     justify-content: space-between;
-    flex-direction: column; 
     align-items: center;
     transition: top 0.3s;
     z-index: 1000;
-    left: 0;
-    right: 0;
 }
 
 .menu:hover {
@@ -31,15 +24,16 @@ html {
 }
 
 .menu .logo {
-    display: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 2vw;
+    font-size: 5vh;
 }
 
 .menu .nav-links {
     display: flex;
-    padding-top: 2vh;
     justify-content: center;
     flex-grow: 1;
-    width: 100%;
 }
 
 .menu .nav-links a {
@@ -48,8 +42,7 @@ html {
     font-weight: bold;
     margin: 0 1.5vw;
     transition: color 0.3s ease;
-    font-size: 1.5vh;
-    margin-top: 1vh;
+    font-size: 3vh;
 }
 
 .menu .nav-links a:hover {
@@ -58,7 +51,7 @@ html {
 
 .menu .social-links {
     display: flex;
-    margin-right: 1vw;
+    margin-right: 2vw;
 }
 
 .menu .social-links a {
@@ -66,20 +59,18 @@ html {
 }
 
 .menu .social-links img {
-    width: 4vw;
-    height: 4vh;   
+    width: 3vh;
+    height: 3vh;
 }
 
 /* Обложка */
 .cover {
+    position: relative;
     width: 100vw;
-    height: 100vh; /* Полная высота экрана */
+    height: 100vh;
     overflow: hidden;
     opacity: 0;
     transition: opacity 1s;
-    margin: 0;
-    padding: 0;
-    position: relative;
 }
 
 .cover.visible {
@@ -100,7 +91,6 @@ html {
     transform: translate(-50%, -50%);
     text-align: center;
     color: white;
-    width: 100%;
 }
 
 .cover .slogan h1 {
@@ -116,15 +106,13 @@ html {
 
 /* Инфо */
 .info {
-    width: 100vw;
-    height: 105vh; 
+    width: 100%;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0;
     transition: opacity 1s;
-    margin: 0;
-    box-sizing: border-box;
 }
 
 .info.visible {
@@ -133,7 +121,7 @@ html {
 
 .info .description {
     width: 100%;
-    height: 15vh; 
+    height: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,53 +134,58 @@ html {
 
 .info .advantages {
     width: 100%;
-    height: 150vh; 
+    height: 70%;
     display: flex;
-    flex-direction: column; 
-    gap: 5vh; 
-    padding: 0 10%; 
-    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
 .info .advantages .advantage {
-    width: 100%;
-    height: 25vh; 
+    width: 30%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
     position: relative;
-    padding: 2vh 0;
-    box-sizing: border-box;
-}
-
-.info .advantages .advantage:last-child {
-    border-bottom: none;
 }
 
 .info .advantages .advantage img {
-    width: 20vw;
-    height: 20vh;
+    width: 22.5vh;
+    height: 22.5vh;
     display: block;
     margin: 0 auto;
+    position: absolute;
+    top: 25%;
+    transform: translateY(-50%);
 }
 
 .info .advantages .advantage h2 {
     font-weight: bold;
     font-size: 3vh;
-    margin: 1vh 0;
+    margin: 37.5vh 0 2.5vh;
 }
 
 .info .advantages .advantage p {
     font-weight: normal;
     font-size: 2vh;
     margin: 0;
-    line-height: 1.5;
+    line-height: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
+
+.info .advantages .advantage:not(:last-child) {
+    border-right: 1px solid #ccc;
+    padding-right: 2vw;
+}
+
 /* Услуги */
 .services {
-    width: 100vw;
-    height: 100vh; /* Полная высота экрана */
+    width: 100%;
+    height: 100vh;
     background-color: #02051a;
     position: relative;
     display: flex;
@@ -201,8 +194,7 @@ html {
     justify-content: flex-start;
     opacity: 0;
     transition: opacity 1s, filter 0.3s ease;
-    margin: 0;
-    padding: 0;
+    padding-top: 10vh;
 }
 
 .services.blurred {
@@ -214,20 +206,20 @@ html {
 }
 
 .services-text {
-    height: 10vh;
+    height: 1%;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
     color: white;
-    font-size: 3vh;
+    font-size: 5vh;
     font-weight: bold;
-    width: 100%;
+    margin-top: 2.5vh;
+    margin-bottom: 10vh;
 }
 
 .services-carousel {
     width: 100%;
-    height: 90vh; /* Оставшаяся высота для карусели */
+    height: 70%;
     position: relative;
     display: flex;
     align-items: center;
@@ -242,34 +234,57 @@ html {
     justify-content: center;
     align-items: center;
 }
-
 .service {
     position: absolute;
-    width: 90vw; /* Ширина плитки на всю ширину экрана */
-    height: 80vh; /* Высота плитки на большую часть экрана */
+    width: 25vw;
+    height: 75vh;
     transition: all 0.5s ease-in-out;
     opacity: 0;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .service img {
     width: 100%;
-    height: 100%;
+    height: 70vh;
     object-fit: cover;
-    border-radius: 2vh;
+    border-radius: 5vh;
 }
 
 .service-title {
     position: absolute;
-    bottom: 5vh;
+    bottom: 15vh; /* Сдвигаем заголовок выше для кнопки */
     left: 50%;
     transform: translateX(-50%);
     color: rgb(255, 255, 255);
-    font-size: 2.5vh;
+    font-size: 3vh;
     font-weight: bold;
     text-align: center;
     text-shadow: 0.5vh 0.5vh 0.5vh rgb(0, 0, 0);
-    width: 100%;
+    width: 80%;
+}
+
+.details-button {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 1vh 3vh;
+    border-radius: 25px;
+    font-size: 2vh;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: white;
+    color: #02051a;
 }
 
 .service-details {
@@ -277,91 +292,66 @@ html {
 }
 
 .service.center {
+    transform: translateX(0) scale(1);
     opacity: 1;
     z-index: 3;
 }
 
-.service.left,
+.service.left {
+    transform: translateX(-120%) scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
 .service.right {
-    display: none; /* Скрываем боковые плитки */
+    transform: translateX(120%) scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
 }
 
-/* Индикаторы для карусели (как в Instagram Stories) */
-.carousel-indicators {
-    position: absolute;
-    top: 2vh;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1vw;
-    z-index: 1000;
-}
-
-.carousel-indicator {
-    width: 10vw;
-    height: 0.5vh;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 1vh;
-    transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.carousel-indicator.active {
-    width: 15vw;
-    background-color: rgba(255, 255, 255, 1);
-}
-
-/* Кнопки карусели скрыты */
-.carousel-button {
-    display: none;
-}
-
-/* Оверлей для деталей услуги */
-.service-details-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.644);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.service.hidden {
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 2000;
+    pointer-events: none;
 }
 
-.service-details-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.service-details-content {
-    background-color: rgb(255, 255, 255);
-    padding: 4vh;
-    border-radius: 1vh;
-    width: 80vw; /* Фиксированная ширина */
-    height: 50vh; /* Фиксированная высота */
-    font-size: 1.8vh; /* Уменьшенный текст */
-    line-height: 1.5;
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
     color: #02051a;
-    overflow-y: auto; /* Добавляем скролл, если текст не помещается */
-    text-align: center;
-    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 1vh;
+    cursor: pointer;
+    font-size: 5vh;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 7.5vh;
+    height: 7.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.carousel-button.prev {
+    left: 5vw;
+}
+
+.carousel-button.next {
+    right: 5vw;
+}
 
 /* Новости */
 .news {
     width: 100%;
-    height: auto; /* Высота автоматическая, чтобы контент не обрезался */
+    height: auto; /* Высота автоматически подстраивается под контент */
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     opacity: 0;
     transition: opacity 1s;
+    padding: 10vh 0; /* Отступы сверху и снизу, убрали отступы по бокам */
     overflow: hidden;
     margin-bottom: 5vh;
 }
@@ -377,15 +367,18 @@ html {
 }
 
 .articles-list {
-    width: 90%;
-    display: flex;
-    flex-direction: column; /* Элементы в колонку (один под другим) */
-    gap: 2vh; /* Отступ между элементами */
+    width: 100%; 
+    display: grid;
+    grid-template-columns: repeat(3, 25%); 
+    gap: 5vw; 
+    justify-content: center; 
     margin-bottom: 5vh;
+    box-sizing: border-box;
 }
+
 .article-item {
-    width: 90%; /* Ширина на всю доступную ширину */
-    height: auto; /* Высота автоматическая, чтобы контент не обрезался */
+    width: 100%; 
+    height: 40vh; 
     background-color: #f9f9f9;
     border-radius: 1vh;
     padding: 2vh;
@@ -393,50 +386,46 @@ html {
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
-    flex-direction: column; /* Элементы внутри блока в столбик */
-    align-items: flex-start; /* Выравнивание по левому краю */
-    font-size: 1.8vh; /* Уменьшенный шрифт для всего блока */
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.article-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.2);
 }
 
 .article-image {
-    width: 100%; /* Ширина изображения на всю ширину блока */
-    height: 20vh; /* Фиксированная высота изображения */
+    width: 100%;
+    height: 20vh;
     object-fit: cover;
     border-radius: 1vh;
-    margin-bottom: 2vh; /* Отступ снизу для изображения */
-}
-
-.article-content {
-    width: 100%; /* Ширина контента на всю ширину блока */
-    display: flex;
-    flex-direction: column; /* Элементы внутри контента в столбик */
-    gap: 1vh; /* Отступ между элементами */
 }
 
 .article-title {
-    font-size: 2.2vh;
-    width: 100%; 
+    font-size: 2.5vh;
     font-weight: bold;
-    margin-bottom: 1vh;
-    overflow: hidden; /* Обрезаем текст, если он не влезает */
-    text-overflow: ellipsis; /* Добавляем многоточие */
-    white-space: nowrap; /* Запрещаем перенос текста */
+    margin-top: 1vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .article-preview {
-    font-size: 1.8vh; /* Уменьшенный шрифт для превью */
+    font-size: 2vh;
     color: #02051a;
+    margin-top: 1vh;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; 
-    line-clamp: 2; 
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.5;
 }
 
 .article-date {
-    font-size: 1.6vh; /* Уменьшенный шрифт для даты */
+    font-size: 1.8vh;
     color: #888;
     margin-top: 1vh;
 }
@@ -459,17 +448,13 @@ html {
 
 /* Контакты */
 .contacts {
-    width: 100vw;
-    height: 75vh; /* Фиксированная высота для контактов */
+    width: 100%;
+    height: 100vh;
     background-color: #02051a;
     display: flex;
-    flex-direction: column;
     align-items: center;
     opacity: 0;
     transition: opacity 1s;
-    padding: 5vh;
-    box-sizing: border-box;
-    margin: 0;
 }
 
 .contacts.visible {
@@ -477,25 +462,27 @@ html {
 }
 
 .map {
-    width: 100%;
-    height: 30vh; /* Фиксированная высота для карты */
-    margin-bottom: 2vh;
+    padding-left: 5vw   ;
+    width: 50%;
+    height: 90%;
 }
 
 .contact-info {
-    width: 100%;
-    height: 20vh; /* Фиксированная высота для информации */
+    width: 50%;
+    padding: 5vh;
     color: white;
-    line-height: 1.6;
+    font-size: 2vh;
+    line-height: 2;
 }
 
 .contact-info h2 {
-    display: none;
+    font-size: 5vh;
+    margin-bottom: 3vh;
+    margin-top: -1vh;
 }
 
 .contact-info p {
-    margin: 1vh 0;
-    text-align: center;
+    margin: 2vh 0;
     font-size: 2vh;
 }
 
@@ -505,27 +492,21 @@ html {
     transition: color 0.3s ease;
 }
 
-.contact-info a:hover,
-.contact-info a:active {
+.contact-info a:hover {
     color: #ddd;
 }
 
 /* Подвал */
 .footer {
-    width: 100vw;
-    height: 20vh; /* Фиксированная высота для подвала */
+    width: 100%;
     background-color: #17171b;
     padding: 5vh 0;
-    margin: 0;
-    box-sizing: border-box;
 }
 
 .footer-links {
     display: flex;
     justify-content: center;
     gap: 3vw;
-    width: 100%;
-    height: 5vh; /* Фиксированная высота для ссылок */
 }
 
 .footer-links a {
@@ -544,10 +525,42 @@ html {
     text-align: center;
     margin-top: 3vh;
     font-size: 2vh;
-    width: 100%;
-    height: 5vh; /* Фиксированная высота для копирайта */
 }
 
+/* Оверлей для деталей услуги */
+.service-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.644);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
+}
+
+.service-details-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.service-details-content {
+    background-color: rgb(255, 255, 255);
+    padding: 4vh;
+    border-radius: 1vh;
+    height: 75vh;
+    width: 100vh;
+    font-size: 3vh;
+    text-align: left;
+    line-height: 2;
+    margin: 2vh 0;
+    color: #02051a;
+}
 
 /* Анимации */
 @keyframes fadeIn {
