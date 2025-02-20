@@ -189,11 +189,10 @@ html {
     margin: 0;
     line-height: 1.5;
 }
-
 /* Услуги */
 .services {
     width: 100vw;
-    height: 75vh; /* Полная высота экрана */
+    height: 100vh; /* Полная высота экрана */
     background-color: #02051a;
     position: relative;
     display: flex;
@@ -215,7 +214,7 @@ html {
 }
 
 .services-text {
-    height: 15vh; /* Фиксированная высота для текста */
+    height: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,7 +227,7 @@ html {
 
 .services-carousel {
     width: 100%;
-    height: 85vh; /* Оставшаяся высота для карусели */
+    height: 90vh; /* Оставшаяся высота для карусели */
     position: relative;
     display: flex;
     align-items: center;
@@ -246,8 +245,8 @@ html {
 
 .service {
     position: absolute;
-    width: 50%;
-    height: 75vh;
+    width: 90vw; /* Ширина плитки на всю ширину экрана */
+    height: 80vh; /* Высота плитки на большую часть экрана */
     transition: all 0.5s ease-in-out;
     opacity: 0;
     cursor: pointer;
@@ -255,18 +254,18 @@ html {
 
 .service img {
     width: 100%;
-    height: 70vh;
+    height: 100%;
     object-fit: cover;
-    border-radius: 5vh;
+    border-radius: 2vh;
 }
 
 .service-title {
     position: absolute;
-    bottom: 10vh;
+    bottom: 5vh;
     left: 50%;
     transform: translateX(-50%);
     color: rgb(255, 255, 255);
-    font-size: 2vh;
+    font-size: 2.5vh;
     font-weight: bold;
     text-align: center;
     text-shadow: 0.5vh 0.5vh 0.5vh rgb(0, 0, 0);
@@ -278,53 +277,78 @@ html {
 }
 
 .service.center {
-    transform: translateX(0) scale(0.75);
     opacity: 1;
     z-index: 3;
 }
 
-.service.left {
-    transform: translateX(-50%) scale(0.5);
-    opacity: 0.7;
-    z-index: 2;
-}
-
+.service.left,
 .service.right {
-    transform: translateX(50%) scale(0.5);
-    opacity: 0.7;
-    z-index: 2;
+    display: none; /* Скрываем боковые плитки */
 }
 
-.service.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.carousel-button {
+/* Индикаторы для карусели (как в Instagram Stories) */
+.carousel-indicators {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: white;
-    color: #02051a;
-    border: none;
-    padding: 1vh;
-    cursor: pointer;
-    font-size: 5vh;
-    z-index: 1000;
-    border-radius: 50%;
-    width: 7.5vh;
-    height: 7.5vh;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
-    align-items: center;
+    gap: 1vw;
+    z-index: 1000;
+}
+
+.carousel-indicator {
+    width: 10vw;
+    height: 0.5vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 1vh;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.carousel-indicator.active {
+    width: 15vw;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* Кнопки карусели скрыты */
+.carousel-button {
+    display: none;
+}
+
+/* Оверлей для деталей услуги */
+.service-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.644);
+    display: flex;
     justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
 }
 
-.carousel-button.prev {
-    display: none;
+.service-details-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
-.carousel-button.next {
-    display: none;
+.service-details-content {
+    background-color: rgb(255, 255, 255);
+    padding: 4vh;
+    border-radius: 1vh;
+    width: 80vw; /* Фиксированная ширина */
+    height: 50vh; /* Фиксированная высота */
+    font-size: 1.8vh; /* Уменьшенный текст */
+    line-height: 1.5;
+    color: #02051a;
+    overflow-y: auto; /* Добавляем скролл, если текст не помещается */
+    text-align: center;
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.1);
 }
 
 
@@ -524,40 +548,6 @@ html {
     height: 5vh; /* Фиксированная высота для копирайта */
 }
 
-/* Оверлей для деталей услуги */
-.service-details-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.644);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 2000;
-}
-
-.service-details-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.service-details-content {
-    background-color: rgb(255, 255, 255);
-    padding: 4vh;
-    border-radius: 1vh;
-    max-width: 50vw;
-    height: 90%;
-    width: 50%;
-    font-size: 3vh;
-    line-height: 2; 
-    margin: 2vh 0; 
-    color: #02051a;
-}
 
 /* Анимации */
 @keyframes fadeIn {
