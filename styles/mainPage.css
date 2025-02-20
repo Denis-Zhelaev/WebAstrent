@@ -1,0 +1,555 @@
+/* Общие стили */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+html {
+    scroll-behavior: smooth;
+  }
+/* Меню */
+.menu {
+    position: fixed;
+    width: 100%;
+    height: 7vh;
+    background-color: #02051a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: top 0.3s;
+    z-index: 1000;
+}
+
+.menu:hover {
+    top: 0;
+}
+
+.menu .logo {
+    color: white;
+    font-weight: bold;
+    margin-left: 2vw;
+    font-size: 5vh;
+}
+
+.menu .nav-links {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.menu .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 1.5vw;
+    transition: color 0.3s ease;
+    font-size: 3vh;
+}
+
+.menu .nav-links a:hover {
+    color: #ddd;
+}
+
+.menu .social-links {
+    display: flex;
+    margin-right: 2vw;
+}
+
+.menu .social-links a {
+    margin: 0 1vw;
+}
+
+.menu .social-links img {
+    width: 3vh;
+    height: 3vh;
+}
+
+/* Обложка */
+.cover {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.cover.visible {
+    opacity: 1;
+}
+
+.cover img {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    filter: brightness(25%);
+}
+
+.cover .slogan {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.cover .slogan h1 {
+    font-size: 10vh;
+    margin: 0;
+}
+
+.cover .slogan p {
+    font-size: 3vh;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Инфо */
+.info {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.info.visible {
+    opacity: 1;
+}
+
+.info .description {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.info .description h1 {
+    font-size: 5vh;
+}
+
+.info .advantages {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.info .advantages .advantage {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.info .advantages .advantage img {
+    width: 22.5vh;
+    height: 22.5vh;
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    top: 25%;
+    transform: translateY(-50%);
+}
+
+.info .advantages .advantage h2 {
+    font-weight: bold;
+    font-size: 3vh;
+    margin: 37.5vh 0 2.5vh;
+}
+
+.info .advantages .advantage p {
+    font-weight: normal;
+    font-size: 2vh;
+    margin: 0;
+    line-height: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.info .advantages .advantage:not(:last-child) {
+    border-right: 1px solid #ccc;
+    padding-right: 2vw;
+}
+
+/* Услуги */
+.services {
+    width: 100%;
+    height: 100vh;
+    background-color: #02051a;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    opacity: 0;
+    transition: opacity 1s, filter 0.3s ease;
+    padding-top: 10vh;
+}
+
+.services.blurred {
+    filter: blur(10px);
+}
+
+.services.visible {
+    opacity: 1;
+}
+
+.services-text {
+    height: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 5vh;
+    font-weight: bold;
+    margin-top: 2.5vh;
+    margin-bottom: 10vh;
+}
+
+.services-carousel {
+    width: 100%;
+    height: 70%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service {
+    position: absolute;
+    width: 25vw;
+    height: 75vh;
+    transition: all 0.5s ease-in-out;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.service img {
+    width: 100%;
+    height: 70vh;
+    object-fit: cover;
+    border-radius: 5vh;
+}
+
+.service-title {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgb(255, 255, 255);
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0.5vh 0.5vh 0.5vh rgb(0, 0, 0);
+    width: 80%;
+}
+
+.service-details {
+    display: none;
+}
+
+.service.center {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    z-index: 3;
+}
+
+.service.left {
+    transform: translateX(-120%) scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.service.right {
+    transform: translateX(120%) scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.service.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    color: #02051a;
+    border: none;
+    padding: 1vh;
+    cursor: pointer;
+    font-size: 5vh;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 7.5vh;
+    height: 7.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-button.prev {
+    left: 5vw;
+}
+
+.carousel-button.next {
+    right: 5vw;
+}
+
+/* Новости */
+/* Новости */
+.news {
+    width: 100%;
+    height: 75vh; /* Фиксированная высота */
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s;
+    padding-top: 10vh;
+    overflow: hidden;
+    margin-bottom: 5vh;
+}
+
+.news.visible {
+    opacity: 1;
+}
+
+.news.expanded {
+    height: auto; /* Расширяем при нажатии "Ещё" */
+}
+
+.news h1 {
+    font-size: 5vh;
+    color: #02051a;
+    margin-bottom: 5vh;
+}
+
+.articles-list {
+    width: 90%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr)); /* Динамическое количество колонок */
+    gap: 2vw; /* Равные отступы между элементами */
+    justify-content: center; /* Центрирование при неполном заполнении */
+    margin-bottom: 5vh;
+}
+
+.article-item {
+    height: auto; /* Высота автоматически подстраивается под контент */
+    background-color: #f9f9f9;
+    border-radius: 1vh;
+    padding: 2vh;
+    box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.2);
+}
+
+.article-image {
+    width: 100%;
+    height: 20vh;
+    object-fit: cover;
+    border-radius: 1vh;
+}
+
+.article-title {
+    font-size: 2.5vh;
+    font-weight: bold;
+    margin-top: 1vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.article-preview {
+
+    font-size: 2.5vh;
+    color: #02051a;
+    margin-top: 1vh;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+   
+}
+
+.article-date {
+    font-size: 1.8vh;
+    color: #888;
+    margin-top: 1vh;
+}
+
+.load-more-button {
+    margin-top: 5vh;
+    padding: 1.5vh 3vh;
+    background-color: #02051a;
+    color: white;
+    border: none;
+    border-radius: 1vh;
+    cursor: pointer;
+    font-size: 2vh;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-button:hover {
+    background-color: #333;
+}
+
+/* Контакты */
+.contacts {
+    width: 100%;
+    height: 100vh;
+    background-color: #02051a;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.contacts.visible {
+    opacity: 1;
+}
+
+.map {
+    width: 50%;
+    height: 100%;
+}
+
+.contact-info {
+    width: 50%;
+    padding: 5vh;
+    color: white;
+    font-size: 2vh;
+    line-height: 2;
+}
+
+.contact-info h2 {
+    font-size: 5vh;
+    margin-bottom: 3vh;
+    margin-top: -1vh;
+}
+
+.contact-info p {
+    margin: 2vh 0;
+    font-size: 2vh;
+}
+
+.contact-info a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: #ddd;
+}
+
+/* Подвал */
+.footer {
+    width: 100%;
+    background-color: #17171b;
+    padding: 5vh 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 3vw;
+}
+
+.footer-links a {
+    color: #ddd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 2vh;
+}
+
+.footer-links a:hover {
+    color: #ddd;
+}
+
+.footer .Copyright {
+    color: #ddd;
+    text-align: center;
+    margin-top: 3vh;
+    font-size: 2vh;
+}
+
+/* Оверлей для деталей услуги */
+.service-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.644);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
+}
+
+.service-details-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.service-details-content {
+    background-color: rgb(255, 255, 255);
+    padding: 4vh;
+    border-radius: 1vh;
+    height: 75vh;
+    width: 100vh;
+    font-size: 3vh;
+    text-align: left;
+    line-height: 2;
+    margin: 2vh 0;
+    color: #02051a;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.cover, .info, .services, .news, .contacts {
+    animation: fadeIn 1s ease-in-out;
+}

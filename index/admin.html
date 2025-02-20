@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель</title>
+    <link rel="stylesheet" href="/styles/admin.css">
+</head>
+<body>
+    <div class="overlay" id="overlay">
+        <div class="login-box">
+            <h2>Введите пароль</h2>
+            <input type="password" id="password" placeholder="Пароль">
+            <button onclick="checkPassword()">Подтвердить</button>
+        </div>
+    </div>
+
+    <!-- Панель администрации -->
+    <div class="admin-panel">
+        <span class="tools-label">Инструменты</span>
+        <button onclick="toggleEditor()">Создать статью</button>
+        <button onclick="toggleArticleManager()">Управление статьями</button>
+        <button onclick="goToHomePage()">Вернуться на страницу</button>
+    </div>
+
+    <!-- Контейнер РедакторСтатьи -->
+    <div class="editor-container" id="editorContainer">
+        <h2>Редактор статей</h2>
+        <div class="editor-inputs">
+            <input type="text" id="titleInput" placeholder="Заголовок статьи" class="title-input">
+            <div class="editor-toolbar">
+                <button onclick="formatDoc('bold')"><b>Жирный</b></button>
+                <button onclick="formatDoc('italic')"><i>Курсив</i></button>
+                <button onclick="formatDoc('underline')">Подчеркнутый</button>
+            </div>
+            <div id="contentInput" class="content-input" contenteditable="true"></div>
+            <div class="image-drop-zone" 
+                 ondrop="handleDrop(event)" 
+                 ondragover="handleDragOver(event)">
+                <p>Поместите изображение сюда</p>
+                <div id="imagePreview" style="display: none;"></div>    
+            </div>
+        </div>
+        <button onclick="saveArticle()" class="save-button">Сохранить</button>
+    </div>
+
+    <!-- Контейнер Управление статьями -->
+    <div class="article-manager-container" id="articleManagerContainer">
+        <h2>Управление статьями</h2>
+        <div class="articles-list" id="articlesList">
+        </div>
+    </div>
+
+    <script src="/scripts/admin.js"></script>
+</body>
+</html>
