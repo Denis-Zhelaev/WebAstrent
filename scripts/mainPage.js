@@ -14,33 +14,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ОПРЕДЕЛЕНИЕ УСТРОЙСТВА ПОЛЬЗОВАТЕЛЯ
     function detectDevice() {
-        // Проверяем наличие сенсорного ввода
         const hasTouchScreen = 'ontouchstart' in window || 
                                (window.DocumentTouch && document instanceof DocumentTouch) ||
                                navigator.maxTouchPoints > 0;
-    
-        // Определение платформы
         const isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-        // Дополнительная проверка для iOS устройств (включая iPad Air и iPad Pro)
         const isIOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) || 
                        (navigator.platform === 'MacIntel' && typeof MessageEvent !== 'undefined' && !MessageEvent.prototype.source)) &&
                       !window.MSStream;
-    
-        // Специальная проверка для iPad Air и iPad Pro
         const isIPad = isIOS || 
                        (navigator.platform === 'MacIntel' && hasTouchScreen && 
                         window.screen.width >= 768 && window.screen.height >= 1024);
-    
-        // Проверка для планшетов
         const isTablet = isIPad || 
                          /Android|Tablet/i.test(navigator.userAgent);
     
-        // Если устройство является планшетом или мобильным, и есть сенсорный ввод
         if ((isTablet || isMobile) && hasTouchScreen) {
             return 'mobile';
         }
-    
         return 'desktop';
     }
 
@@ -49,18 +38,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const deviceType = detectDevice();
         const existingLink = document.querySelector('link[rel="stylesheet"][href*="mainPage"]');
         if (existingLink) {
-            existingLink.remove(); // Удаляем существующий стиль, если он есть
+            existingLink.remove();
         }
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        if (deviceType === 'mobile') {
-            link.href = '/styles/mainPagePortal.css'; // Для мобильных устройств
-        } else {
-            link.href = '/styles/mainPage.css'; // Для десктопов
-        }
+        link.href = deviceType === 'mobile' ? '/styles/mainPagePortal.css' : '/styles/mainPage.css';
         document.head.appendChild(link);
     }
-    // ВЫЗОВ ФУНКЦИИ ДЛЯ ПРИМЕНЕНИЯ СТИЛЯ
     applyStyleBasedOnDevice();
 
     // Прокрутка к разделам при нажатии на пункты меню
@@ -72,12 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (targetElement) {
                 const deviceType = detectDevice();
                 if (deviceType === 'mobile') {
-                    // Для мобильных устройств скроллим на 10vh выше центра
-                    const offset = window.innerHeight * 0.09; // 10vh выше центра
+                    const offset = window.innerHeight * 0.09;
                     const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
                     window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                 } else {
-                    // Для десктопов стандартный скролл
                     targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             }
@@ -141,6 +123,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.moveCarousel = moveCarousel;
 
+    // Логика свайпа для мобильных устройств
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (detectDevice() === 'mobile') {
+        servicesArray.forEach(service => {
+            service.addEventListener('touchstart', handleTouchStart, { passive: true });
+            service.addEventListener('touchmove', handleTouchMove, { passive: true });
+            service.addEventListener('touchend', handleTouchEnd);
+        });
+    }
+
+    function handleTouchStart(event) {
+        touchStartX = event.touches[0].clientX;
+    }
+
+    function handleTouchMove(event) {
+        touchEndX = event.touches[0].clientX;
+    }
+
+    function handleTouchEnd() {
+        if (touchEndX < touchStartX) {
+            moveCarousel(-1); // Свайп влево
+        } else if (touchEndX > touchStartX) {
+            moveCarousel(1); // Свайп вправо
+        }
+        touchStartX = 0;
+        touchEndX = 0;
+    }
+
     servicesArray.forEach(service => {
         service.addEventListener('click', function (e) {
             if (service.classList.contains('center')) {
@@ -194,66 +206,57 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch('/api/articles');
             const articles = await response.json();
-            allArticles = articles; // Сохраняем все статьи
-            displayArticles(0, visibleNewsCount); // Отображаем первые три статьи
+            allArticles = articles;
+            displayArticles(0, visibleNewsCount);
         } catch (error) {
             console.error('Ошибка загрузки статей:', error);
         }
     }
 
+    function displayArticles(startIndex, endIndex) {
+        articlesList.innerHTML = '';
+        const articlesToShow = allArticles.slice(startIndex, endIndex);
 
-// Функция для отображения статей
-function displayArticles(startIndex, endIndex) {
-    articlesList.innerHTML = ''; // Очищаем список статей
-    const articlesToShow = allArticles.slice(startIndex, endIndex);
+        articlesToShow.forEach(article => {
+            const articleElement = document.createElement('div');
+            articleElement.className = 'article-item';
+            articleElement.dataset.articleId = article.id;
 
-    articlesToShow.forEach(article => {
-        const articleElement = document.createElement('div');
-        articleElement.className = 'article-item';
-        articleElement.dataset.articleId = article.id;
+            const imagePath = article.imagePath ? `/newsPaper/newsImages/${article.imagePath.split('/').pop()}` : '/mainAssets/standart_news_photo.png';
+            const title = article.title || 'Без названия';
+            const contentPreview = article.content || 'Нет содержания';
+            const date = article.createdAt || 'Дата не указана';
 
-        const imagePath = article.imagePath ? `/newsPaper/newsImages/${article.imagePath.split('/').pop()}` : '/mainAssets/standart_news_photo.png';
-        const title = article.title || 'Без названия'; // Убираем обрезание заголовка
-        const contentPreview = article.content || 'Нет содержания'; // Используем уже обрезанный контент (первые 50 символов)
-        const date = article.createdAt || 'Дата не указана'; // Используем createdAt, который приходит с сервера
+            articleElement.innerHTML = `
+                <img src="${imagePath}" alt="${title}" class="article-image">
+                <div class="article-title">${title}</div>
+                <div class="article-preview">${contentPreview}</div>
+                <div class="article-date">${date}</div>
+            `;
 
-        articleElement.innerHTML = `
-            <img src="${imagePath}" alt="${title}" class="article-image">
-            <div class="article-title">${title}</div> <!-- Заголовок без обрезания -->
-            <div class="article-preview">${contentPreview}</div> <!-- Отображаем первые 50 символов контента -->
-            <div class="article-date">${date}</div> <!-- Дата в формате ДД.ММ.ГГГГ -->
-        `;
+            articleElement.addEventListener('click', () => {
+                openArticle(article.id);
+            });
 
-        // Добавляем обработчик клика для открытия статьи
-        articleElement.addEventListener('click', () => {
-            openArticle(article.id);
+            articlesList.appendChild(articleElement);
         });
 
-        articlesList.appendChild(articleElement);
-    });
-
-    // Показываем кнопку "Ещё", если есть ещё статьи
-    if (endIndex < allArticles.length) {
-        loadMoreButton.style.display = 'block';
-    } else {
-        loadMoreButton.style.display = 'none';
+        if (endIndex < allArticles.length) {
+            loadMoreButton.style.display = 'block';
+        } else {
+            loadMoreButton.style.display = 'none';
+        }
     }
-}
 
-    // Функция для открытия статьи
     function openArticle(articleId) {
         window.location.href = `/newsPaper/newsArticles/${articleId}.html`;
     }
 
-    // Обработчик кнопки "Ещё"
     loadMoreButton.addEventListener('click', () => {
-        visibleNewsCount += 3; // Увеличиваем количество видимых новостей
-        displayArticles(0, visibleNewsCount); // Отображаем новые статьи
-
-        // Расширяем контейнер новостей
+        visibleNewsCount += 3;
+        displayArticles(0, visibleNewsCount);
         news.classList.add('expanded');
     });
 
-    // Вызов функции загрузки статей после загрузки DOM
     loadArticles();
 });
