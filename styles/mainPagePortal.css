@@ -115,7 +115,7 @@ body {
 /* Инфо */
 .info {
     width: 100vw;
-    height: 105vh; 
+    height: 110vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -202,6 +202,7 @@ body {
     transition: opacity 1s, filter 0.3s ease;
     margin: 0;
     padding: 0;
+    margin-top: -5vh; /* Поднимаем карточку с услугами вверх */
 }
 
 .services.blurred {
@@ -226,7 +227,7 @@ body {
 
 .services-carousel {
     width: 100%;
-    height: 85vh; /* Оставшаяся высота для карусели */
+    height: 75vh; /* Оставшаяся высота для карусели */
     position: relative;
     display: flex;
     align-items: center;
@@ -240,12 +241,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -7vh; 
 }
 
 .service {
     position: absolute;
-    width: 50%;
-    height: 75vh;
+    width: 60%; /* Увеличена ширина */
+    height: 50vh; /* Уменьшена высота */
     transition: all 0.5s ease-in-out;
     opacity: 0;
     cursor: pointer;
@@ -253,22 +255,42 @@ body {
 
 .service img {
     width: 100%;
-    height: 70vh;
+    height: 100%;
     object-fit: cover;
     border-radius: 5vh;
 }
 
 .service-title {
     position: absolute;
-    bottom: 10vh;
+    bottom: 7.5vh; /* Опускаем текст вниз */
     left: 50%;
     transform: translateX(-50%);
     color: rgb(255, 255, 255);
-    font-size: 2vh;
+    font-size: 2.5vh; /* Увеличен шрифт */
     font-weight: bold;
     text-align: center;
     text-shadow: 0.5vh 0.5vh 0.5vh rgb(0, 0, 0);
     width: 100%;
+}
+
+.details-button {
+    position: absolute;
+    bottom: 2vh; /* Опускаем кнопку вниз */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    border-radius: 20px; /* Овальная форма */
+    padding: 1vh 3vh;
+    font-size: 2vh;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: white;
+    color: #02051a;
 }
 
 .service-details {
@@ -323,6 +345,66 @@ body {
 
 .carousel-button.next {
     display: none;
+}
+
+/* Индикаторы */
+.carousel-indicators {
+    position: absolute;
+    bottom: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1vh;
+    z-index: 1000;
+}
+
+.carousel-indicators .indicator {
+    width: 4vh;
+    height: 0.5vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 0.5vh;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators .indicator.active {
+    background-color: white;
+    height: 0.8vh; /* Толще для активного индикатора */
+}
+
+/* Оверлей для деталей услуги */
+.service-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.644);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 2000;
+}
+
+.service-details-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.service-details-content {
+    background-color: rgb(255, 255, 255);
+    padding: 4vh;
+    border-radius: 1vh;
+    width: 60%; /* Фиксированная ширина */
+    max-height: 70vh; /* Фиксированная высота */
+    overflow-y: auto; /* Добавляем скролл, если текст не помещается */
+    font-size: 1.8vh; /* Уменьшенный шрифт */
+    line-height: 1.5;
+    color: #02051a;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -523,40 +605,6 @@ body {
     height: 5vh; /* Фиксированная высота для копирайта */
 }
 
-/* Оверлей для деталей услуги */
-.service-details-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.644);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-    z-index: 2000;
-}
-
-.service-details-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.service-details-content {
-    background-color: rgb(255, 255, 255);
-    padding: 4vh;
-    border-radius: 1vh;
-    max-width: 50vw;
-    height: 90%;
-    width: 50%;
-    font-size: 3vh;
-    line-height: 2; 
-    margin: 2vh 0; 
-    color: #02051a;
-}
 
 /* Анимации */
 @keyframes fadeIn {

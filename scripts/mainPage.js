@@ -89,21 +89,64 @@ document.addEventListener("DOMContentLoaded", function () {
     let autoScrollInterval;
 
     function updateCarousel() {
-        servicesArray.forEach((service, index) => {
-            let position = (index - currentIndex + totalServices) % totalServices;
-            service.classList.remove('left', 'center', 'right', 'hidden');
-            if (position === 0) {
-                service.classList.add('center');
-            } else if (position === 1 || position === -6) {
-                service.classList.add('right');
-            } else if (position === -1 || position === 6) {
-                service.classList.add('left');
-            } else {
-                service.classList.add('hidden');
+        const deviceType = detectDevice(); // Определяем тип устройства
+        const indicatorsContainer = document.querySelector('.carousel-indicators'); // Контейнер для индикаторов
+    
+        if (deviceType === 'mobile') {
+            // Логика для мобильных устройств
+            if (!indicatorsContainer) {
+                // Создаем контейнер для индикаторов, если его нет
+                const indicators = document.createElement('div');
+                indicators.className = 'carousel-indicators';
+                document.querySelector('.services-carousel').appendChild(indicators);
             }
-        });
+    
+            // Очищаем индикаторы и создаем новые
+            const indicators = document.querySelector('.carousel-indicators');
+            indicators.innerHTML = '';
+            for (let i = 0; i < totalServices; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                if (i === currentIndex) {
+                    indicator.classList.add('active');
+                }
+                indicators.appendChild(indicator);
+            }
+    
+            // Обновляем видимость карточек
+            servicesArray.forEach((service, index) => {
+                service.classList.remove('left', 'center', 'right', 'hidden');
+                if (index === currentIndex) {
+                    service.classList.add('center'); // Только центральная карточка видна
+                    service.style.transform = 'translateX(0) scale(1)'; // Нормальный размер
+                    service.style.opacity = '1';
+                } else {
+                    service.classList.add('hidden'); // Остальные карточки скрыты
+                    service.style.opacity = '0';
+                }
+            });
+        } else {
+            // Логика для десктопов (оставляем текущую логику)
+            servicesArray.forEach((service, index) => {
+                let position = (index - currentIndex + totalServices) % totalServices;
+                service.classList.remove('left', 'center', 'right', 'hidden');
+                if (position === 0) {
+                    service.classList.add('center');
+                } else if (position === 1 || position === -6) {
+                    service.classList.add('right');
+                } else if (position === -1 || position === 6) {
+                    service.classList.add('left');
+                } else {
+                    service.classList.add('hidden');
+                }
+            });
+    
+            // Удаляем индикаторы, если они есть (для десктопов они не нужны)
+            if (indicatorsContainer) {
+                indicatorsContainer.remove();
+            }
+        }
     }
-
     function moveCarousel(direction) {
         currentIndex = (currentIndex - direction + totalServices) % totalServices;
         updateCarousel();
