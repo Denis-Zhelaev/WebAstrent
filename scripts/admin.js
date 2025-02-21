@@ -65,7 +65,6 @@ async function loadArticles() {
             articleElement.innerHTML = `
                 <img src="${imagePath}" alt="${title}" class="article-image">
                 <div class="article-title">${title}</div>
-                <div class="article-content">${article.content}</div>
                 <div class="article-date">${article.createdAt}</div>
                 <button class="delete-button" onclick="confirmDelete('${article.id}')">✖</button>
             `;
@@ -178,4 +177,4 @@ function handleFileSelect(event) {
 // Форматирование текста в редакторе
 function formatDoc(command) {
     document.execCommand(command, false, null);
-}
+}   
