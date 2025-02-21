@@ -38,6 +38,7 @@ body {
     cursor: pointer;
     font-size: 1.5vh;
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    width: 15vw; /* Одинаковая ширина для всех кнопок */
 }
 
 .admin-panel button:hover {
@@ -57,6 +58,15 @@ body {
     color: black;
     padding: 2vh;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Всё по центру по горизонтали */
+}
+
+.editor-container h2 {
+    font-size: 4vh; /* Увеличенный размер шрифта */
+    text-align: center; /* Текст по центру */
+    margin-bottom: 2vh; /* Отступ снизу */
 }
 
 .editor-inputs {
@@ -64,19 +74,21 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 2vh;
+    width: 100%; /* Ширина на всю доступную область */
 }
 
 .title-input {
-    width: 25vw;
+    width: 50vw; /* Увеличенная ширина */
     height: 10vh;
     padding: 1vh;
     font-size: 2vh;
     border: 0.1vh solid #ccc;
     border-radius: 1vh;
+    text-align: center; /* Текст по центру */
 }
 
 .content-input {
-    width: 25vw;
+    width: 50vw; /* Увеличенная ширина */
     min-height: 50vh;
     padding: 1vh;
     font-size: 2vh;
@@ -93,18 +105,23 @@ body {
 
 .editor-toolbar {
     display: flex;
+    flex-direction: column; /* Тулбар в столбик */
     gap: 1vh;
-    margin-bottom: 1vh;
-    align-items: center;
+    position: fixed; /* Закрепление тулбара */
+    left: 2vw; /* Позиция слева */
+    top: 50%; /* Центрирование по вертикали */
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    z-index: 1000; /* Поверх других элементов */
 }
 
 .editor-toolbar button {
-    padding: 1vh 2vw;
+    padding: 2vh 3vw; /* Увеличенные размеры */
     background-color: #02051a;
     color: white;
     border: none;
     border-radius: 1vh;
     cursor: pointer;
+    width: 15vw; /* Одинаковая ширина для всех кнопок */
 }
 
 .editor-toolbar button:hover {
@@ -113,24 +130,24 @@ body {
 
 .save-button {
     margin-top: 2vh;
-    padding: 1vh 2vw;
-    background-color: #02051a;
+    padding: 4vh 3vw; /* Увеличенная высота */
+    background-color: darkgreen; /* Тёмно-зелёный цвет */
     color: white;
     border: none;
     border-radius: 1vh;
     cursor: pointer;
-    width: 25vw;
-    margin-left: auto;
-    margin-right: auto;
+    width: 50vw; /* Увеличенная ширина */
+    font-size: 2.5vh; /* Увеличенный размер текста */
+    text-align: center; /* Текст по центру */
     display: block;
 }
 
 .save-button:hover {
-    background-color: #333;
+    background-color: #006400; /* Более тёмный зелёный при наведении */
 }
 
 .image-drop-zone {
-    width: 25vw;
+    width: 50vw; /* Увеличенная ширина */
     height: 20vh;
     border: 0.2vh dashed #ccc;
     border-radius: 1vh;
@@ -232,29 +249,36 @@ body {
 
 .login-box {
     background-color: #17171b;
-    padding: 2vh;
+    padding: 6vh; /* Увеличенный padding */
     border-radius: 1vh;
     text-align: center;
+    width: 30vw; /* Увеличенная ширина */
 }
 
 .login-box h2 {
     margin-bottom: 2vh;
+    font-size: 3vh; /* Увеличенный размер текста */
 }
 
 .login-box input {
-    padding: 1vh;
-    margin-bottom: 1vh;
+    padding: 2vh; /* Увеличенный padding */
+    margin-bottom: 2vh; /* Увеличенный отступ */
     border: none;
     border-radius: 1vh;
+    width: 100%; /* Ширина на всю доступную область */
+    text-align: center; /* Текст по центру */
+    font-size: 2vh; /* Увеличенный размер текста */
 }
 
 .login-box button {
-    padding: 1vh 2vw;
+    padding: 2vh 4vw; /* Увеличенные размеры */
     background-color: #02051a;
     color: white;
     border: none;
     border-radius: 1vh;
     cursor: pointer;
+    width: 100%; /* Ширина на всю доступную область */
+    font-size: 2vh; /* Увеличенный размер текста */
 }
 
 .login-box button:hover {
