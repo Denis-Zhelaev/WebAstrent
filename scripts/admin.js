@@ -3,7 +3,7 @@ let selectedImage = null;
 
 // Функция для возврата на главную страницу
 function goToHomePage() {
-    window.location.href = '/';  // ПЕРЕХОД НА ГЛАВНУЮ СТРАНИЦУ
+    window.location.href = '/';
 }
 
 // Аутентификация
@@ -21,6 +21,7 @@ function checkPassword() {
         if (data.authenticated) {
             document.getElementById('overlay').style.display = 'none';
             document.querySelector('.admin-panel').style.display = 'flex';
+            document.querySelector('.editor-toolbar').style.display = 'flex'; // Показываем тулбар
         } else {
             incorrectAttempts++;
             alert('Неверный пароль');
@@ -156,6 +157,22 @@ function handleDrop(e) {
 
 function handleDragOver(e) {
     e.preventDefault();
+}
+
+// Открытие проводника для выбора файла
+function openFileExplorer() {
+    document.getElementById('fileInput').click();
+}
+
+// Обработка выбранного файла
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        selectedImage = file;
+        const preview = document.getElementById('imagePreview');
+        preview.textContent = file.name;
+        preview.style.display = 'block';
+    }
 }
 
 // Форматирование текста в редакторе

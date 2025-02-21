@@ -20,6 +20,7 @@ body {
     padding: 0 2vw;
     box-sizing: border-box;
     z-index: 100;
+    display: none; /* Скрываем панель администрации до ввода пароля */
 }
 
 .tools-label {
@@ -112,6 +113,7 @@ body {
     top: 50%; /* Центрирование по вертикали */
     transform: translateY(-50%); /* Центрирование по вертикали */
     z-index: 1000; /* Поверх других элементов */
+    display: none; /* Скрываем тулбар до ввода пароля */
 }
 
 .editor-toolbar button {
@@ -156,7 +158,7 @@ body {
     align-items: center;
     justify-content: center;
     margin: 2vh auto;
-    cursor: pointer;
+    cursor: pointer; /* Курсор pointer для кликабельности */
 }
 
 .image-drop-zone:hover {
@@ -268,6 +270,7 @@ body {
     width: 100%; /* Ширина на всю доступную область */
     text-align: center; /* Текст по центру */
     font-size: 2vh; /* Увеличенный размер текста */
+    box-sizing: border-box; /* Учитываем padding в ширине */
 }
 
 .login-box button {
@@ -279,6 +282,7 @@ body {
     cursor: pointer;
     width: 100%; /* Ширина на всю доступную область */
     font-size: 2vh; /* Увеличенный размер текста */
+    box-sizing: border-box; /* Учитываем padding в ширине */
 }
 
 .login-box button:hover {

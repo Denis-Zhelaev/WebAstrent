@@ -36,10 +36,13 @@
             <div id="contentInput" class="content-input" contenteditable="true"></div>
             <div class="image-drop-zone" 
                  ondrop="handleDrop(event)" 
-                 ondragover="handleDragOver(event)">
+                 ondragover="handleDragOver(event)"
+                 onclick="openFileExplorer()">
                 <p>Поместите изображение сюда</p>
                 <div id="imagePreview" style="display: none;"></div>    
             </div>
+            <!-- Скрытый input для выбора файла -->
+            <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="handleFileSelect(event)">
         </div>
         <button onclick="saveArticle()" class="save-button">Сохранить</button>
     </div>
