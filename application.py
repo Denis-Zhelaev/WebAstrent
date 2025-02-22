@@ -13,7 +13,7 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'newsPaper/newsImages')
 ARTICLES_FOLDER = os.path.join(os.path.dirname(__file__), 'newsPaper/newsArticles')
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 application.config['ARTICLES_FOLDER'] = ARTICLES_FOLDER
-application.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB
+application.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  
 
 # Объявляем статические папки
 application.add_url_rule('/mainAssets/<path:filename>', endpoint='mainAssets', view_func=lambda filename: send_from_directory('mainAssets', filename))
@@ -59,29 +59,10 @@ def get_articles():
             if filename.endswith('.html'):
                 with open(os.path.join(application.config['ARTICLES_FOLDER'], filename), 'r', encoding='utf-8') as file:
                     content = file.read()
-                    soup = BeautifulSoup(content, 'html.parser')
-
-                    # Извлечение заголовка
-                    title_tag = soup.find('h2', class_='title')
-                    title = title_tag.text if title_tag else 'Без названия'
-
-                    # Извлечение изображения
-                    img_tag = soup.find('img')
-                    image_path = img_tag['src'] if img_tag else None
-
-                    # Извлечение даты
-                    date_tag = soup.find('p', class_='created-at')
-                    created_at = date_tag.text if date_tag else 'Дата неизвестна'
-
-                    # Извлечение текста статьи
-                    text_tag = soup.find('p', class_='text')
-                    if text_tag:
-                        short_content = text_tag.get_text()  # Извлекаем только текст
-                        short_content = short_content[:50].strip()  # Обрезаем до 50 символов
-                        short_content += '...'
-                    else:
-                        short_content = 'Нет содержания'
-
+                    title = content.split('<h2 class="title">')[1].split('</h2>')[0] if '<h2 class="title">' in content else 'Без названия'
+                    image_path = content.split('<img src="')[1].split('"')[0] if '<img src="' in content else None
+                    created_at = content.split('<p class="created-at">')[1].split('</p>')[0] if '<p class="created-at">' in content else '01.01.1970'
+                    short_content = content.split('<p class="text">')[1].split('</p>')[0][:50] + '...' if '<p class="text">' in content else ''
                     articles.append({
                         'id': filename.split('.')[0],
                         'title': title,
@@ -89,6 +70,10 @@ def get_articles():
                         'imagePath': image_path,
                         'createdAt': created_at
                     })
+        
+        # Сортировка статей по дате (сначала свежие)
+        articles.sort(key=lambda x: datetime.strptime(x['createdAt'], '%d.%m.%Y'), reverse=True)
+        
         return jsonify(articles)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
