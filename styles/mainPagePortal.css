@@ -407,7 +407,6 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-
 /* Новости */
 .news {
     width: 100%;
@@ -440,6 +439,7 @@ body {
     gap: 2vh; /* Отступ между элементами */
     margin-bottom: 5vh;
 }
+
 .article-item {
     width: 90%; /* Ширина на всю доступную ширину */
     height: auto; /* Высота автоматическая, чтобы контент не обрезался */
@@ -496,6 +496,8 @@ body {
     font-size: 1.6vh; /* Уменьшенный шрифт для даты */
     color: #888;
     margin-top: 1vh;
+    text-decoration: none !important; /* Запрещаем подчеркивание */
+    pointer-events: none; /* Отключаем клики по дате */
 }
 
 .load-more-button {
@@ -604,7 +606,6 @@ body {
     width: 100%;
     height: 5vh; /* Фиксированная высота для копирайта */
 }
-
 
 /* Анимации */
 @keyframes fadeIn {

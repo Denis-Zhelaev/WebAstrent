@@ -271,8 +271,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <img src="${imagePath}" alt="${title}" class="article-image">
                 <div class="article-title">${title}</div>
                 <div class="article-preview">${contentPreview}</div>
-                <div class="article-date">${date}</div>
             `;
+
+            // Используем textContent для даты
+            const dateElement = document.createElement('div');
+            dateElement.className = 'article-date';
+            dateElement.textContent = date; // Используем textContent вместо innerHTML
+            articleElement.appendChild(dateElement);
 
             articleElement.addEventListener('click', () => {
                 openArticle(article.id);
