@@ -78,8 +78,7 @@ def get_articles():
                     if text_tag:
                         short_content = text_tag.get_text()  # Извлекаем только текст
                         short_content = short_content[:50].strip()  # Обрезаем до 50 символов
-                        if len(short_content) > 50:  # Добавляем троеточие, если текст был обрезан
-                            short_content += '...'
+                        short_content += '...'
                     else:
                         short_content = 'Нет содержания'
 
