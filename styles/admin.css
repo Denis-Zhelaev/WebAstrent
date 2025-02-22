@@ -130,6 +130,31 @@ body {
     background-color: #333;
 }
 
+#linkInput {
+    display: none; /* Скрыто по умолчанию */
+    width: 15vw; /* Одинаковая ширина */
+    padding: 1vh;
+    margin: 0.5vh 0; /* Отступы между элементами */
+    box-sizing: border-box;
+}
+
+#confirmLinkButton {
+    display: none; /* Скрыто по умолчанию */
+    background-color: green; /* Зелёный цвет для кнопки подтверждения */
+    color: white;
+    border: none;
+    border-radius: 1vh;
+    cursor: pointer;
+    width: 15vw; /* Одинаковая ширина */
+    padding: 1vh;
+    margin: 0.5vh 0; /* Отступы между элементами */
+    box-sizing: border-box;
+}
+
+#confirmLinkButton:hover {
+    background-color: darkgreen; /* Тёмно-зелёный при наведении */
+}
+
 .save-button {
     margin-top: 2vh;
     padding: 4vh 3vw; /* Увеличенная высота */

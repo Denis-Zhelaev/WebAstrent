@@ -32,6 +32,11 @@
                 <button onclick="formatDoc('bold')"><b>Жирный</b></button>
                 <button onclick="formatDoc('italic')"><i>Курсив</i></button>
                 <button onclick="formatDoc('underline')">Подчеркнутый</button>
+                <!-- Новая кнопка для добавления ссылки -->
+                <button onclick="toggleLinkInput()">Добавить ссылку</button>
+                <!-- Поле для ввода ссылки и кнопка подтверждения -->
+                <input type="text" id="linkInput" placeholder="Введите ссылку" style="display: none;">
+                <button id="confirmLinkButton" onclick="applyLink()" style="display: none; background-color: green; color: white;">Подтвердить</button>
             </div>
             <div id="contentInput" class="content-input" contenteditable="true"></div>
             <div class="image-drop-zone" 

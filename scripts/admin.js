@@ -1,5 +1,23 @@
 let incorrectAttempts = 0;
 let selectedImage = null;
+let savedSelection = null; // Сохраняем выделение
+
+// Функция для сохранения выделения
+function saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        savedSelection = selection.getRangeAt(0); // Сохраняем выделенный диапазон
+    }
+}
+
+// Функция для восстановления выделения
+function restoreSelection() {
+    if (savedSelection) {
+        const selection = window.getSelection();
+        selection.removeAllRanges(); // Очищаем текущее выделение
+        selection.addRange(savedSelection); // Восстанавливаем сохраненное выделение
+    }
+}
 
 // Функция для возврата на главную страницу
 function goToHomePage() {
@@ -177,4 +195,51 @@ function handleFileSelect(event) {
 // Форматирование текста в редакторе
 function formatDoc(command) {
     document.execCommand(command, false, null);
-}   
+}
+
+// Функция для отображения/скрытия поля ввода ссылки и кнопки подтверждения
+function toggleLinkInput() {
+    const linkInput = document.getElementById('linkInput');
+    const confirmLinkButton = document.getElementById('confirmLinkButton');
+    if (linkInput.style.display === 'none') {
+        saveSelection(); // Сохраняем выделение перед отображением поля
+        linkInput.style.display = 'block';
+        confirmLinkButton.style.display = 'block';
+    } else {
+        linkInput.style.display = 'none';
+        confirmLinkButton.style.display = 'none';
+    }
+}
+
+// Функция для добавления ссылки к выделенному тексту
+function applyLink() {
+    const linkInput = document.getElementById('linkInput');
+    const link = linkInput.value.trim();
+    if (link) {
+        restoreSelection(); // Восстанавливаем выделение
+        const selection = window.getSelection();
+        if (selection.toString()) {
+            // Создаем HTML-ссылку
+            const linkHTML = `<a href="${link}" target="_blank">${selection.toString()}</a>`;
+            // Вставляем ссылку вместо выделенного текста
+            const range = selection.getRangeAt(0);
+            range.deleteContents();
+            const div = document.createElement('div');
+            div.innerHTML = linkHTML;
+            const frag = document.createDocumentFragment();
+            let node;
+            while ((node = div.firstChild)) {
+                frag.appendChild(node);
+            }
+            range.insertNode(frag);
+        } else {
+            alert('Выделите текст, чтобы добавить ссылку!');
+        }
+    } else {
+        alert('Введите ссылку!');
+    }
+    // Очищаем поле и скрываем его
+    linkInput.value = '';
+    linkInput.style.display = 'none';
+    document.getElementById('confirmLinkButton').style.display = 'none';
+}
