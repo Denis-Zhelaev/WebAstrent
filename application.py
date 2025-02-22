@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify, send_from_directory, Markup  # ДОБАВЛЕНО: Markup для корректного отображения HTML
+from flask import Flask, request, jsonify, send_from_directory, Markup
 import os
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import re
+from bs4 import BeautifulSoup 
 
 # Создаем экземпляр Flask
 application = Flask(__name__)
@@ -58,10 +59,30 @@ def get_articles():
             if filename.endswith('.html'):
                 with open(os.path.join(application.config['ARTICLES_FOLDER'], filename), 'r', encoding='utf-8') as file:
                     content = file.read()
-                    title = content.split('<h2 class="title">')[1].split('</h2>')[0] if '<h2 class="title">' in content else 'Без названия'
-                    image_path = content.split('<img src="')[1].split('"')[0] if '<img src="' in content else None
-                    created_at = content.split('<p class="created-at">')[1].split('</p>')[0] if '<p class="created-at">' in content else 'Дата неизвестна'
-                    short_content = content.split('<p class="text">')[1].split('</p>')[0][:50] + '...' if '<p class="text">' in content else ''
+                    soup = BeautifulSoup(content, 'html.parser')
+
+                    # Извлечение заголовка
+                    title_tag = soup.find('h2', class_='title')
+                    title = title_tag.text if title_tag else 'Без названия'
+
+                    # Извлечение изображения
+                    img_tag = soup.find('img')
+                    image_path = img_tag['src'] if img_tag else None
+
+                    # Извлечение даты
+                    date_tag = soup.find('p', class_='created-at')
+                    created_at = date_tag.text if date_tag else 'Дата неизвестна'
+
+                    # Извлечение текста статьи
+                    text_tag = soup.find('p', class_='text')
+                    if text_tag:
+                        short_content = text_tag.get_text()  # Извлекаем только текст
+                        short_content = short_content[:50].strip()  # Обрезаем до 50 символов
+                        if len(short_content) > 50:  # Добавляем троеточие, если текст был обрезан
+                            short_content += '...'
+                    else:
+                        short_content = 'Нет содержания'
+
                     articles.append({
                         'id': filename.split('.')[0],
                         'title': title,
@@ -95,7 +116,7 @@ def save_article():
         if not title or not content:
             return jsonify({'error': 'Заполните заголовок и содержание статьи'}), 400
 
-        # ДОБАВЛЕНО: Генерация имени файла с поддержкой кириллицы
+        # Генерация имени файла с поддержкой кириллицы
         title_cleaned = re.sub(r'[^\w\s-]', '', title).strip().replace(' ', '_')
         article_filename = f"{title_cleaned}.html"
 
@@ -105,7 +126,7 @@ def save_article():
             image.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
             image_path = f'/newsImages/{filename}'
 
-        # ДОБАВЛЕНО: Использование Markup для корректного отображения HTML
+        # Использование Markup для корректного отображения HTML
         content = Markup(content)
 
         article_html = f"""
