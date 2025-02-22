@@ -27,7 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const isTablet = isIPad || 
                          /Android|Tablet/i.test(navigator.userAgent);
     
-        if ((isTablet || isMobile) && hasTouchScreen) {
+        // Дополнительная проверка для гибридных устройств (например, ASUS Zenbook Fold)
+        const isHybridDevice = hasTouchScreen && 
+                               (window.screen.width >= 768 && window.screen.height >= 1024) &&
+                               /Windows/i.test(navigator.userAgent);
+    
+        if ((isTablet || isMobile || isHybridDevice) && hasTouchScreen) {
             return 'mobile';
         }
         return 'desktop';
