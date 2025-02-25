@@ -50,7 +50,6 @@ def authenticate():
         if incorrect_attempts >= 3:
             return jsonify({'authenticated': False, 'redirect': '/'}), 401
         return jsonify({'authenticated': False}), 401
-
 @application.route('/api/articles', methods=['GET'])
 def get_articles():
     articles = []
@@ -59,10 +58,24 @@ def get_articles():
             if filename.endswith('.html'):
                 with open(os.path.join(application.config['ARTICLES_FOLDER'], filename), 'r', encoding='utf-8') as file:
                     content = file.read()
-                    title = content.split('<h2 class="title">')[1].split('</h2>')[0] if '<h2 class="title">' in content else 'Без названия'
-                    image_path = content.split('<img src="')[1].split('"')[0] if '<img src="' in content else None
-                    created_at = content.split('<p class="created-at">')[1].split('</p>')[0] if '<p class="created-at">' in content else '01.01.1970'
-                    short_content = content.split('<p class="text">')[1].split('</p>')[0][:50] + '...' if '<p class="text">' in content else ''
+                    soup = BeautifulSoup(content, 'html.parser')
+                    
+                    # Извлечение заголовка
+                    title = soup.find('h2', class_='title').get_text(strip=True) if soup.find('h2', class_='title') else 'Без названия'
+                    
+                    # Извлечение пути к изображению
+                    image_tag = soup.find('img')
+                    image_path = image_tag['src'] if image_tag else None
+                    
+                    # Извлечение даты создания
+                    created_at = soup.find('p', class_='created-at').get_text(strip=True) if soup.find('p', class_='created-at') else '01.01.1970'
+                    
+                    # Извлечение текста статьи и удаление всех тегов
+                    text_content = soup.find('p', class_='text').get_text(strip=True) if soup.find('p', class_='text') else ''
+                    
+                    # Ограничение текста до 50 символов и добавление троеточия
+                    short_content = text_content[:50] + '...' if len(text_content) > 50 else text_content
+                    
                     articles.append({
                         'id': filename.split('.')[0],
                         'title': title,
