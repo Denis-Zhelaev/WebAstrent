@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup 
+import secrets
 
 # Создаем экземпляр Flask
 application = Flask(__name__)
@@ -28,6 +29,9 @@ ADMIN_PASSWORD = 'admin123'
 # Счетчик неудачных попыток входа
 incorrect_attempts = 0
 
+# Хранение токенов
+active_tokens = set()
+
 # Загрузка страниц
 @application.route('/')
 def main_page():
@@ -44,12 +48,24 @@ def authenticate():
     data = request.get_json()
     if data.get('password') == ADMIN_PASSWORD:
         incorrect_attempts = 0
-        return jsonify({'authenticated': True})
+        token = secrets.token_hex(16)
+        active_tokens.add(token)
+        return jsonify({'authenticated': True, 'token': token})
     else:
         incorrect_attempts += 1
         if incorrect_attempts >= 3:
             return jsonify({'authenticated': False, 'redirect': '/'}), 401
         return jsonify({'authenticated': False}), 401
+
+@application.route('/api/check-token', methods=['POST'])
+def check_token():
+    data = request.get_json()
+    token = data.get('token')
+    if token in active_tokens:
+        return jsonify({'valid': True})
+    else:
+        return jsonify({'valid': False}), 401
+
 @application.route('/api/articles', methods=['GET'])
 def get_articles():
     articles = []
@@ -58,24 +74,10 @@ def get_articles():
             if filename.endswith('.html'):
                 with open(os.path.join(application.config['ARTICLES_FOLDER'], filename), 'r', encoding='utf-8') as file:
                     content = file.read()
-                    soup = BeautifulSoup(content, 'html.parser')
-                    
-                    # Извлечение заголовка
-                    title = soup.find('h2', class_='title').get_text(strip=True) if soup.find('h2', class_='title') else 'Без названия'
-                    
-                    # Извлечение пути к изображению
-                    image_tag = soup.find('img')
-                    image_path = image_tag['src'] if image_tag else None
-                    
-                    # Извлечение даты создания
-                    created_at = soup.find('p', class_='created-at').get_text(strip=True) if soup.find('p', class_='created-at') else '01.01.1970'
-                    
-                    # Извлечение текста статьи и удаление всех тегов
-                    text_content = soup.find('p', class_='text').get_text(strip=True) if soup.find('p', class_='text') else ''
-                    
-                    # Ограничение текста до 50 символов и добавление троеточия
-                    short_content = text_content[:50] + '...' if len(text_content) > 50 else text_content
-                    
+                    title = content.split('<h2 class="title">')[1].split('</h2>')[0] if '<h2 class="title">' in content else 'Без названия'
+                    image_path = content.split('<img src="')[1].split('"')[0] if '<img src="' in content else None
+                    created_at = content.split('<p class="created-at">')[1].split('</p>')[0] if '<p class="created-at">' in content else '01.01.1970'
+                    short_content = content.split('<p class="text">')[1].split('</p>')[0][:50] + '...' if '<p class="text">' in content else ''
                     articles.append({
                         'id': filename.split('.')[0],
                         'title': title,

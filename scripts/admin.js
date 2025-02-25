@@ -1,4 +1,3 @@
-let incorrectAttempts = 0;
 let selectedImage = null;
 let savedSelection = null; // Сохраняем выделение
 
@@ -40,31 +39,58 @@ function checkPassword() {
             document.getElementById('overlay').style.display = 'none';
             document.querySelector('.admin-panel').style.display = 'flex';
             document.querySelector('.editor-toolbar').style.display = 'flex'; // Показываем тулбар
+            // Сохраняем токен в sessionStorage
+            sessionStorage.setItem('authToken', data.token);
         } else {
-            incorrectAttempts++;
-            alert('Неверный пароль');
-            if (incorrectAttempts >= 3) {
-                window.location.href = '/';
-            }
+            document.getElementById('errorMessage').style.display = 'block';
         }
     })
     .catch(error => console.error('Ошибка:', error));
 }
 
-// Переключение между редактором и менеджером
-function toggleEditor() {
-    const editorContainer = document.getElementById('editorContainer');
-    editorContainer.style.display = editorContainer.style.display === 'block' ? 'none' : 'block';
-    document.getElementById('articleManagerContainer').style.display = 'none';
+// Проверка токена перед выполнением действий
+function checkToken(callback) {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) {
+        window.location.href = '/';
+        return;
+    }
+    fetch('/api/check-token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.valid) {
+            callback();
+        } else {
+            window.location.href = '/';
+        }
+    })
+    .catch(error => console.error('Ошибка:', error));
 }
 
-function toggleArticleManager() {
-    const articleManagerContainer = document.getElementById('articleManagerContainer');
-    articleManagerContainer.style.display = articleManagerContainer.style.display === 'block' ? 'none' : 'block';
-    document.getElementById('editorContainer').style.display = 'none';
-    if (articleManagerContainer.style.display === 'block') {
-        loadArticles();
-    }
+// Переключение между редактором и менеджером с проверкой токена
+function checkTokenAndToggleEditor() {
+    checkToken(() => {
+        const editorContainer = document.getElementById('editorContainer');
+        editorContainer.style.display = editorContainer.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('articleManagerContainer').style.display = 'none';
+    });
+}
+
+function checkTokenAndToggleArticleManager() {
+    checkToken(() => {
+        const articleManagerContainer = document.getElementById('articleManagerContainer');
+        articleManagerContainer.style.display = articleManagerContainer.style.display === 'block' ? 'none' : 'block';
+        document.getElementById('editorContainer').style.display = 'none';
+        if (articleManagerContainer.style.display === 'block') {
+            loadArticles();
+        }
+    });
 }
 
 // Загрузка статей
@@ -95,9 +121,11 @@ async function loadArticles() {
 
 // Удаление статьи
 function confirmDelete(articleId) {
-    if (confirm('Вы уверены, что хотите удалить эту статью?')) {
-        deleteArticle(articleId);
-    }
+    checkToken(() => {
+        if (confirm('Вы уверены, что хотите удалить эту статью?')) {
+            deleteArticle(articleId);
+        }
+    });
 }
 
 async function deleteArticle(articleId) {
@@ -116,7 +144,13 @@ async function deleteArticle(articleId) {
     }
 }
 
-// Сохранение статьи
+// Сохранение статьи с проверкой токена
+function checkTokenAndSaveArticle() {
+    checkToken(() => {
+        saveArticle();
+    });
+}
+
 async function saveArticle() {
     const title = document.getElementById('titleInput').value;
     const content = document.getElementById('contentInput').innerHTML;
@@ -195,51 +229,4 @@ function handleFileSelect(event) {
 // Форматирование текста в редакторе
 function formatDoc(command) {
     document.execCommand(command, false, null);
-}
-
-// Функция для отображения/скрытия поля ввода ссылки и кнопки подтверждения
-function toggleLinkInput() {
-    const linkInput = document.getElementById('linkInput');
-    const confirmLinkButton = document.getElementById('confirmLinkButton');
-    if (linkInput.style.display === 'none') {
-        saveSelection(); // Сохраняем выделение перед отображением поля
-        linkInput.style.display = 'block';
-        confirmLinkButton.style.display = 'block';
-    } else {
-        linkInput.style.display = 'none';
-        confirmLinkButton.style.display = 'none';
-    }
-}
-
-// Функция для добавления ссылки к выделенному тексту
-function applyLink() {
-    const linkInput = document.getElementById('linkInput');
-    const link = linkInput.value.trim();
-    if (link) {
-        restoreSelection(); // Восстанавливаем выделение
-        const selection = window.getSelection();
-        if (selection.toString()) {
-            // Создаем HTML-ссылку
-            const linkHTML = `<a href="${link}" target="_blank">${selection.toString()}</a>`;
-            // Вставляем ссылку вместо выделенного текста
-            const range = selection.getRangeAt(0);
-            range.deleteContents();
-            const div = document.createElement('div');
-            div.innerHTML = linkHTML;
-            const frag = document.createDocumentFragment();
-            let node;
-            while ((node = div.firstChild)) {
-                frag.appendChild(node);
-            }
-            range.insertNode(frag);
-        } else {
-            alert('Выделите текст, чтобы добавить ссылку!');
-        }
-    } else {
-        alert('Введите ссылку!');
-    }
-    // Очищаем поле и скрываем его
-    linkInput.value = '';
-    linkInput.style.display = 'none';
-    document.getElementById('confirmLinkButton').style.display = 'none';
 }
