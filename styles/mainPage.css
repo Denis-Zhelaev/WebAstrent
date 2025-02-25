@@ -27,7 +27,7 @@ html {
     color: white;
     font-weight: bold;
     margin-left: 2vw;
-    font-size: 5vh;
+    font-size: 5vh;/*крупный*/
 }
 
 .menu .nav-links {
@@ -42,7 +42,7 @@ html {
     font-weight: bold;
     margin: 0 1.5vw;
     transition: color 0.3s ease;
-    font-size: 3vh;
+    font-size: 3vh;/*средний*/
 }
 
 .menu .nav-links a:hover {
@@ -94,12 +94,12 @@ html {
 }
 
 .cover .slogan h1 {
-    font-size: 10vh;
+    font-size: 8vh;/*очень крупный*/
     margin: 0;
 }
 
 .cover .slogan p {
-    font-size: 3vh;
+    font-size: 3vh;/*средний*/
     font-style: italic;
     margin: 0;
 }
@@ -129,7 +129,7 @@ html {
 }
 
 .info .description h1 {
-    font-size: 5vh;
+    font-size: 8vh;
 }
 
 .info .advantages {
@@ -163,13 +163,13 @@ html {
 
 .info .advantages .advantage h2 {
     font-weight: bold;
-    font-size: 3vh;
+    font-size: 2vh;/*cредний*/
     margin: 37.5vh 0 2.5vh;
 }
 
 .info .advantages .advantage p {
     font-weight: normal;
-    font-size: 2vh;
+    font-size: 2vh;/*маленький*/
     margin: 0;
     line-height: 2;
     display: -webkit-box;
@@ -211,7 +211,7 @@ html {
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 5vh;
+    font-size: 8vh;/*оч крупный*/
     font-weight: bold;
     margin-top: 2.5vh;
     margin-bottom: 10vh;
@@ -260,7 +260,7 @@ html {
     left: 50%;
     transform: translateX(-50%);
     color: rgb(255, 255, 255);
-    font-size: 3vh;
+    font-size: 3vh;/* средний */
     font-weight: bold;
     text-align: center;
     text-shadow: 0.5vh 0.5vh 0.5vh rgb(0, 0, 0);
@@ -277,7 +277,7 @@ html {
     color: white;
     padding: 1vh 3vh;
     border-radius: 25px;
-    font-size: 2vh;
+    font-size: 2vh;/* малый */
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -323,7 +323,7 @@ html {
     border: none;
     padding: 1vh;
     cursor: pointer;
-    font-size: 5vh;
+    font-size: 5vh;/* большой */
     z-index: 1000;
     border-radius: 50%;
     width: 7.5vh;
@@ -361,7 +361,7 @@ html {
 }
 
 .news h1 {
-    font-size: 5vh;
+    font-size: 5vh;/* большой */
     color: #02051a;
     margin-bottom: 5vh;
 }
@@ -403,7 +403,7 @@ html {
 }
 
 .article-title {
-    font-size: 2.5vh;
+    font-size: 3vh;/* средний */
     font-weight: bold;
     margin-top: 1vh;
     overflow: hidden;
@@ -412,7 +412,7 @@ html {
 }
 
 .article-preview {
-    font-size: 2vh;
+    font-size: 2vh;/* малый */
     color: #02051a;
     margin-top: 1vh;
     overflow: hidden;
@@ -425,11 +425,11 @@ html {
 }
 
 .article-date {
-    font-size: 1.8vh;
+    font-size: 2vh;/* малый */
     color: #888;
     margin-top: 1vh;
-    text-decoration: none !important; /* Запрещаем подчеркивание */
-    pointer-events: none; /* Отключаем клики по дате */
+    text-decoration: none !important; 
+    pointer-events: none; 
 }
 
 .load-more-button {
@@ -440,7 +440,7 @@ html {
     border: none;
     border-radius: 1vh;
     cursor: pointer;
-    font-size: 2vh;
+    font-size: 2vh;/* малый */
     transition: background-color 0.3s ease;
 }
 
@@ -464,28 +464,28 @@ html {
 }
 
 .map {
-    padding-left: 5vw   ;
+    padding-left: 5vw;
     width: 50%;
     height: 90%;
 }
 
 .contact-info {
     width: 50%;
-    padding: 5vh;
+    padding: 8vh;
     color: white;
     font-size: 2vh;
-    line-height: 2;
+    line-height: 1.5;
 }
 
 .contact-info h2 {
     font-size: 5vh;
     margin-bottom: 3vh;
-    margin-top: -1vh;
+    /*margin-top: -1vh;*/
 }
 
 .contact-info p {
     margin: 2vh 0;
-    font-size: 2vh;
+    font-size: 3vh;
 }
 
 .contact-info a {
