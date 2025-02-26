@@ -65,19 +65,47 @@ def check_token():
         return jsonify({'valid': True})
     else:
         return jsonify({'valid': False}), 401
+from bs4 import BeautifulSoup
 
 @application.route('/api/articles', methods=['GET'])
 def get_articles():
     articles = []
     try:
         for filename in os.listdir(application.config['ARTICLES_FOLDER']):
+            # Пропускаем файлы, которые начинаются с "to_delete"
+            if filename.startswith('to_delete'):
+                continue
+            
             if filename.endswith('.html'):
                 with open(os.path.join(application.config['ARTICLES_FOLDER'], filename), 'r', encoding='utf-8') as file:
                     content = file.read()
-                    title = content.split('<h2 class="title">')[1].split('</h2>')[0] if '<h2 class="title">' in content else 'Без названия'
-                    image_path = content.split('<img src="')[1].split('"')[0] if '<img src="' in content else None
-                    created_at = content.split('<p class="created-at">')[1].split('</p>')[0] if '<p class="created-at">' in content else '01.01.1970'
-                    short_content = content.split('<p class="text">')[1].split('</p>')[0][:50] + '...' if '<p class="text">' in content else ''
+                    soup = BeautifulSoup(content, 'html.parser')
+                    
+                    # Извлекаем заголовок
+                    title = soup.find('h2', class_='title').get_text(strip=True) if soup.find('h2', class_='title') else 'Без названия'
+                    
+                    # Извлекаем путь к изображению
+                    image_tag = soup.find('img')
+                    image_path = image_tag['src'] if image_tag else None
+                    
+                    # Извлекаем дату создания
+                    created_at = soup.find('p', class_='created-at').get_text(strip=True) if soup.find('p', class_='created-at') else '01.01.1970'
+                    
+                    # Извлекаем весь текст из контента статьи, игнорируя теги и <br>
+                    content_text = soup.find('main', class_='content').get_text(strip=True) if soup.find('main', class_='content') else ''
+                    
+                    # Обрезаем текст до 50 символов, но не обрезаем слово на полуслове
+                    short_content = content_text[:50]
+                    if len(content_text) > 50:
+                        # Находим последний пробел в обрезанном тексте
+                        last_space_index = short_content.rfind(' ')
+                        if last_space_index != -1:
+                            short_content = short_content[:last_space_index] + '...'
+                        else:
+                            short_content = short_content + '...'
+                    else:
+                        short_content = content_text  # Если текст короче 50 символов, оставляем как есть
+                    
                     articles.append({
                         'id': filename.split('.')[0],
                         'title': title,

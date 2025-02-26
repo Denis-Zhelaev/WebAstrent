@@ -1,0 +1,41 @@
+
+                        <!DOCTYPE html>
+                        <html lang="ru">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>gdfgdf</title>
+                            <link rel="stylesheet" href="../../styles/instance_news.css">
+                        </head>
+                        <body>
+                            <header class="menu">
+                                <a href="/" class="back-button">Назад</a>
+                                <h1 class="menu-title">Астрент.Новости</h1>
+                            </header>
+                            <main class="content">
+                                <h2 class="title">gdfgdf</h2>
+                                
+                                <p class="text"><span style="font-size: 24.1px;">g<b>dfgdfgdfgdfgdfgdfgdfgdfgd</b>fgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdf</span></p>
+                                <p class="created-at">26.02.2025</p>
+                            </main>
+                            <button class="scroll-to-top" onclick="scrollToTop()">↑</button>
+                            <script>
+                                function scrollToTop() {
+                                    window.scrollTo({
+                                        top: 0,
+                                        behavior: 'smooth'
+                                    });
+                                }
+
+                                window.onscroll = function() {
+                                    var scrollButton = document.querySelector('.scroll-to-top');
+                                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                                        scrollButton.style.display = 'block';
+                                    } else {
+                                        scrollButton.style.display = 'none';
+                                    }
+                                };
+                            </script>
+                        </body>
+                        </html>
+        
